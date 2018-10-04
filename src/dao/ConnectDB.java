@@ -1,5 +1,6 @@
 package dao;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,9 +28,19 @@ public class ConnectDB {
 	
 	public ConnectDB(){
 		try {
-			Context initCtx = new InitialContext();
+			
+			String url = "jdbc:mysql://ec2-13-125-229-239.ap-northeast-2.compute.amazonaws.com:3306/rootplan?characterEncoding=utf8";        
+			String id = "rootplan";                                       
+			String pw = "rootplan";                                       
+
+			Class.forName("com.mysql.jdbc.Driver");                     
+
+			connection=DriverManager.getConnection(url,id,pw);          
+			//out.println("제대로 연결되었습니다.");                           
+			
+/*			Context initCtx = new InitialContext();
 			Context envCtx = (Context) initCtx.lookup("java:comp/env");   
-			ds = (DataSource) envCtx.lookup("jboss/datasources/defaultDS");
+			ds = (DataSource) envCtx.lookup("jboss/datasources/defaultDS");*/
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
