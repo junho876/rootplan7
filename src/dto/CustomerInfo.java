@@ -15,6 +15,13 @@ public class CustomerInfo {
 		String[] tmp = age.split("-");
 		this.age = Integer.parseInt(tmp[0]);
 	}
+	
+	public CustomerInfo(String id, String email, int gender, int age){
+		this.id = id;
+		this.email = email;
+		this.gender=gender;
+		this.age=age;
+	}
 	public String getId() {
 		return id;
 	}
@@ -27,4 +34,12 @@ public class CustomerInfo {
 	public int getAge() {
 		return age;
 	}
+
+	@Override
+	public String toString() {
+		return "CustomerInfo [id=" + id + ", email=" + email + ", gender=" + gender + ", age=" + age + "]";
+	}
+	
+	
+	
 }

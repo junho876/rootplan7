@@ -1,9 +1,12 @@
 package dao;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -20,7 +23,7 @@ public class ConnectDB {
 	static Connection connection;
 	static Statement st;
 	static ResultSet rs;
-
+	PreparedStatement pstmt;
 	
 	public ConnectDB(){
 		try {
@@ -78,6 +81,65 @@ public class ConnectDB {
 			System.out.println("SQLState: " + SQLex.getSQLState());
 		}
 	}
+	
+	//insert into customer(id, email, gender ,age) values('1111' , '한글 테스트', '한글' , '22');
+	public List<CustomerInfo> getList() {
+		List<CustomerInfo> list=new ArrayList<>();	
+		try {			
+			connection = ds.getConnection();			
+			String sql ="select * from customer ";
+			pstmt=connection.prepareStatement(sql);						
+			rs=pstmt.executeQuery();
+							
+			while (rs.next()) {
+				String id =rs.getString("id");
+				String email=rs.getString("email");
+				int  gender=rs.getInt("gender");
+				int age=rs.getInt("age");
+				CustomerInfo info=new CustomerInfo(id, email, gender, age);
+				list.add(info);
+			}			
+		} catch (SQLException SQLex) {		
+			System.out.println("SQLException: " + SQLex.getMessage());
+			System.out.println("SQLState: " + SQLex.getSQLState());
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null)rs.close();
+				if(connection!=null)connection.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}			
+		}		
+		return list;
+	}
+	
+	
+	//  데이터 삽입
+	public void insertCustomer(CustomerInfo info) {
+		try {
+			String sql ="insert into customer(id, email, gender ,age) values(? , ?, ? , ?)";			
+			connection=ds.getConnection();
+			pstmt=connection.prepareStatement(sql);
+			pstmt.setString(1, info.getId());
+			pstmt.setString(2, info.getEmail());
+			pstmt.setInt(3, info.getGender());
+			pstmt.setInt(4, info.getAge());			
+			pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.getMessage();
+		}finally {
+			try {				
+				if(pstmt!=null)rs.close();
+				if(connection!=null)connection.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}			
+		}	
+	}
+	
+	
 	private void CreateDB(CustomerInfo info) {
 		
 		try {
