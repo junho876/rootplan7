@@ -3,15 +3,7 @@ package dao;
 public class CalculateDist {
 
 	   /**
-	    * 두 지점간의 거리 계산
-	    *
-	    * @param lat1 지점 1 위도
-	    * @param lon1 지점 1 경도
-	    * @param lat2 지점 2 위도
-	    * @param lon2 지점 2 경도
-	    * @param unit 거리 표출단위
-	    * @return
-	    * // 미터(Meter) 단위 호출 부
+
 	        double distanceMeter =
 	            distance(37.504198, 127.047967, 37.501025, 127.037701, "meter");
 	    */

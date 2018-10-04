@@ -29,16 +29,16 @@ public class SearchAPIServlet extends HttpServlet {
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	      response.setContentType("text/html;charset=UTF-8");	      
 	      PrintWriter out = response.getWriter();
-	      //System.out.println("검색api호출");
+	      
 	      int menuIndex = Integer.parseInt(request.getParameter("menuIndex"));
 	      
 		  switch(menuIndex) {
-			  case 1:  //지도 클릭, 검색
+			  case 1:  
 				  String result = "";
 				  LocalSearch ls = new LocalSearch();
-				  int num = Integer.parseInt(request.getParameter("num")); //0: 검색, 1: 클릭
-				  String findLocation = request.getParameter("findLocation"); //타이틀
-				  String address = request.getParameter("address"); // 도로명 주소
+				  int num = Integer.parseInt(request.getParameter("num"));
+				  String findLocation = request.getParameter("findLocation"); 
+				  String address = request.getParameter("address"); 
 				  result = ls.mapLocalSearch(num, findLocation, address);
 				  out.print(result);
 				  break;
