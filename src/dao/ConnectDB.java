@@ -47,10 +47,18 @@ public class ConnectDB {
 		       
 	}
 	
-	public Connection getConnection() {
+	public static Connection getConnection() {
 		try {
-			connection=ds.getConnection();
-		} catch (SQLException e) {
+			String url = "jdbc:mysql://ec2-13-125-229-239.ap-northeast-2.compute.amazonaws.com:3306/rootplan?characterEncoding=utf8";        
+			String id = "rootplan";                                       
+			String pw = "rootplan";                                       
+
+			Class.forName("com.mysql.jdbc.Driver"); 
+			if(connection==null) {
+				connection=DriverManager.getConnection(url,id,pw);	
+			}
+			 
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -60,8 +68,9 @@ public class ConnectDB {
 	
 	public void CheckID(CustomerInfo info) {
 		System.out.println("checkID");
-		try {			
-			connection = ds.getConnection();
+		try {
+			connection=ConnectDB.getConnection();
+			//connection = ds.getConnection();
 			st = connection.createStatement();
 			rs = st.executeQuery("show databases");	
 			if (st.execute("SHOW DATABASES")) {
@@ -97,7 +106,8 @@ public class ConnectDB {
 	public List<CustomerInfo> getList() {
 		List<CustomerInfo> list=new ArrayList<>();	
 		try {			
-			connection = ds.getConnection();			
+			connection=ConnectDB.getConnection();
+			//connection = ds.getConnection();			
 			String sql ="select * from customer ";
 			pstmt=connection.prepareStatement(sql);						
 			rs=pstmt.executeQuery();
@@ -130,7 +140,8 @@ public class ConnectDB {
 	public void insertCustomer(CustomerInfo info) {
 		try {
 			String sql ="insert into customer(id, email, gender ,age) values(? , ?, ? , ?)";			
-			connection=ds.getConnection();
+			connection=ConnectDB.getConnection();
+			//connection = ds.getConnection();
 			pstmt=connection.prepareStatement(sql);
 			pstmt.setString(1, info.getId());
 			pstmt.setString(2, info.getEmail());
@@ -154,7 +165,8 @@ public class ConnectDB {
 	private void CreateDB(CustomerInfo info) {
 		
 		try {
-			connection = ds.getConnection();
+			connection=ConnectDB.getConnection();
+			//connection = ds.getConnection();
 			st = connection.createStatement();
 			st.executeUpdate("INSERT INTO customer " +
 					"VALUES('"+info.getId()+"','"+info.getEmail()
@@ -184,7 +196,8 @@ public class ConnectDB {
 	
 		String rID =  makeRID(ad);
 		try {
-			connection = ds.getConnection();
+			connection=ConnectDB.getConnection();
+			//connection = ds.getConnection();
 			st = connection.createStatement();
 			rs = st.executeQuery("SELECT * FROM route where rid='"+rID+"' AND cid='"+cID+"'");
 			if(rs.next()) { 
@@ -242,7 +255,8 @@ public class ConnectDB {
 		        +data.getAddress(6)+"',"+ data.getLat(6) +","+data.getLng(6)+")";
 	
 		try {
-			connection = ds.getConnection();
+			connection=ConnectDB.getConnection();
+			//connection = ds.getConnection();
 			st = connection.createStatement();
 			st.executeUpdate(sqlStr);
 			rs.close();
@@ -257,7 +271,8 @@ public class ConnectDB {
 		System.out.println("Route2: INSERT INTO route2 VALUES('"+tmp.getRid()+"', '"+tmp.getCid()+"','"+
 				tmp.getPt_order()+"', '"+tmp.getCar_order()+"',"+tmp.getSize()+","+tmp.getStart()+","+tmp.getLast()+")");
 		try {
-			connection = ds.getConnection();
+			connection=ConnectDB.getConnection();
+			//connection = ds.getConnection();
 			st = connection.createStatement();
 			int Query = st.executeUpdate("INSERT INTO route2 VALUES('"+tmp.getRid()+"', '"+tmp.getCid()+"','"+
 			tmp.getPt_order()+"', '"+tmp.getCar_order()+"',"+tmp.getSize()+","+tmp.getStart()+","+tmp.getLast()+")");
@@ -312,7 +327,8 @@ public class ConnectDB {
 	public int DeleteData(String rID,String cID) { //
 		System.out.println("DB삭제");
 		try {		
-			connection = ds.getConnection();
+			connection=ConnectDB.getConnection();
+
 			st = connection.createStatement();
 			st.executeUpdate("DELETE FROM route WHERE rid='"+rID+"' AND cid='"+cID+"'");	
 			rs = st.executeQuery("SELECT * FROM route where cid='"+cID+"'"); //
@@ -333,7 +349,7 @@ public class ConnectDB {
 		System.out.println(rID +", " + cID);
 		DBRouteData tmpIndex = new DBRouteData(rID, cID);
 		try {	
-			connection = ds.getConnection();
+			connection=ConnectDB.getConnection();
 			st = connection.createStatement();
 			String sqlStr = "SELECT * FROM route WHERE cid='"+cID+"' AND rid='"+rID+"'";
 			System.out.println("CallDBData_INDEX : " + sqlStr);
@@ -365,7 +381,7 @@ public class ConnectDB {
 	public Route2DataCall GetSavedRoute2Data(String cID,String rID) { //		
 		Route2DataCall result = new Route2DataCall();
 		try {	
-			connection = ds.getConnection();
+			connection=ConnectDB.getConnection();
 			st = connection.createStatement();
 			String sqlStr = "SELECT * FROM route2 WHERE cid='"+cID+"' AND rid='"+ rID+"'";
 			rs = st.executeQuery(sqlStr);	
