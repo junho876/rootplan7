@@ -19,27 +19,26 @@ public class ApiPTSearch {
    String key = "5FtIuAS9YmPfOD56TV5NHqYE6EivPWAAIBCZcy6V72c";
    LinkedList<dto.Address> ad;
    DataTotal dataTotal;
-   // 이차원 배열을 Route.java에다가 넣어주기
+   
    ApiWalkSearch ws;
    int listSize;
-   boolean flag = false; // 대중교통에서 걷기 api호출에 쿨타임을 주기 위해서 만들었다.
+   boolean flag = false; 
    boolean isSame=false;
    int adSize;
 
-   // 생성자, 이차원 배열 초기화
    public ApiPTSearch(LinkedList<dto.Address> ad, DataTotal dataTotal, int listSize) {
 	  this.listSize = listSize;
       adSize = ad.size();
       this.ad = ad;
       this.ws = new ApiWalkSearch();
       this.dataTotal = dataTotal;
-      // 배열 초기화
+     
       dataTotal.initPtDist();
    }   
 
-   // 출력 함수 : 대중교통 거리 출력
+  
    void ptPrint(int size) {
-      System.out.println("대중교통 거리 출력");
+      
       for(int i=0; i<listSize; i++) {
          for(int j=0; j<listSize; j++) {
             System.out.print(dataTotal.ptDist[i][j].getTime() + " "); 
@@ -48,12 +47,12 @@ public class ApiPTSearch {
       }
    }
    
-   // 이차원 배열 돌면서 callPTApi 호출
+   
    public void callTransportApi(int a, int b) {
       for (int i = a; i < b; i++) {
          for (int j = 0; j < listSize; j++) {
             if (dataTotal.ptDist[i][j].getMethod()) {
-            	continue; // 걷기데이터가 호출되었었기 때문에
+            	continue; 
             }else if (i == j)
             	dataTotal.ptDist[i][j] = new TimeMethod(Integer.MAX_VALUE, false);
             else {
@@ -61,27 +60,26 @@ public class ApiPTSearch {
             }
          }
       }
-     // ptPrint(listSize);
-     // System.out.println("대중교통끝"+", 리스트 사이즈"+ listSize);
+   
    }
  
-   // callTransportApi 호출당해, 대중교통 호출
+
   public void callPTApi(double sx, double sy, double ex , double ey, int i, int j) {
       CalculateDist calDist = new CalculateDist();
 	  double distanceMeter = calDist.distance(sx, sy, ex, ey, "meter");
       if (distanceMeter <= 800) {
-         // 이전에 있던 애가 걷기 호출을 했었는지
+       
          int tmpTime = 0;
          if (flag == true) {
             try {
                Thread.sleep(550);
-               tmpTime = ws.walkApi(i, j, sx, sy, ex, ey)/60;  // 60 없애고 분으로 해야할듯
+               tmpTime = ws.walkApi(i, j, sx, sy, ex, ey)/60;  
             } catch (Exception e) {}
          } else {
             tmpTime = ws.walkApi(i, j, sx, sy, ex, ey) / 60;
          }
          
-         // 걷기일 경우 양방향 같으니 같은 데이터 넣어주기
+        
          dataTotal.ptDist[i][j] = new TimeMethod(tmpTime, true);
          dataTotal.ptDist[j][i] = new TimeMethod(tmpTime, true);
          flag = true;
@@ -100,18 +98,18 @@ public class ApiPTSearch {
             if (responseCode == 200) {         
                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
             } else {
-               //에러가 발생하면 걷기로 대체
+             
                int tmpTime = 0;
                if (flag == true) {
                   try {
                      Thread.sleep(550);
-                     tmpTime = ws.walkApi(i, j, sx, sy, ex, ey)/60;  // 60 없애고 분으로 해야할듯
+                     tmpTime = ws.walkApi(i, j, sx, sy, ex, ey)/60;  
                   } catch (Exception e) {}
                } else {
                   tmpTime = ws.walkApi(i, j, sx, sy, ex, ey) / 60;
                }
                
-               // 걷기일 경우 양방향 같으니 같은 데이터 넣어주기
+            
                dataTotal.ptDist[i][j] = new TimeMethod(tmpTime, true);
                dataTotal.ptDist[j][i] = new TimeMethod(tmpTime, true);
                flag = true;
@@ -129,20 +127,19 @@ public class ApiPTSearch {
             String[] array;
             array = data.split("\"");
             for (int k = 0; k < array.length; k++) {
-               if(array[k].equals("code")) {     //700m 이하로 문제 발생
-            	   System.out.println("문제있음=============="); 
-                   //에러가 발생하면 걷기로 대체 
+               if(array[k].equals("code")) {   
+                  
                    int tmpTime = 0;
                    if (flag == true) {
                       try {
                          Thread.sleep(550);
-                         tmpTime = ws.walkApi(i, j, sx, sy, ex, ey)/60;  // 60 없애고 분으로 해야할듯
+                         tmpTime = ws.walkApi(i, j, sx, sy, ex, ey)/60;  
                       } catch (Exception e) {}
                    } else {
                       tmpTime = ws.walkApi(i, j, sx, sy, ex, ey) / 60;
                    }
                    
-                   // 걷기일 경우 양방향 같으니 같은 데이터 넣어주기
+                  
                    dataTotal.ptDist[i][j] = new TimeMethod(tmpTime, true);
                    dataTotal.ptDist[j][i] = new TimeMethod(tmpTime, true);
                    flag = true;
@@ -162,7 +159,7 @@ public class ApiPTSearch {
 
   public void resultOrderCall(int[] result, int start, int end) {  //결과대로 호출
 	  if(start==end) listSize++;  
-	  System.out.println("문제!!!!!!!!!!!!!!!!!!!!!!"+ listSize);
+	  
       for(int i =0; i < listSize -1; i++) {
     	  System.out.println("i:"+i);
     	  dataTotal.ptList.add(callResultPT( ad.get(result[i]).getLat(), ad.get(result[i]).getLng(),
@@ -170,15 +167,15 @@ public class ApiPTSearch {
       }
   }
   
-  // 대중교통 재호출할 때, 마지막에 결과 한노드에서 한 노드로 총 정보 가져오기 
+   
   public InfoPT callResultPT(double sx, double sy, double ex, double ey,int a, int b) {
-      InfoPT infopt = new InfoPT(); // 1-2 지점 이동시
+      InfoPT infopt = new InfoPT(); 
       InfoSectionPT infoSec = new InfoSectionPT();
       CalculateDist calDist = new CalculateDist();
       double distanceMeter = calDist.distance(sx, sy, ex, ey, "meter");
       if (dataTotal.ptDist[a][b].getMethod() || distanceMeter <= 800) {
-    	  System.out.println("걷기 호출" + dataTotal.ptDist[a][b].getMethod());
-         // 이전에 있던 애가 걷기 호출을 했었는지
+    	
+      
          if (flag == true) {
             try {
                Thread.sleep(1500);
@@ -187,7 +184,7 @@ public class ApiPTSearch {
          } else {
             infopt = ws.resultWalkPTApi(sx, sy, ex, ey);
          }        
-         // 걷기일 경우 양방향 같으니 같은 데이터 넣어주기
+         
          flag = true;
       } else {
          flag=false;
@@ -206,7 +203,7 @@ public class ApiPTSearch {
             } else {
                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
                
-               System.out.println("대중교통 실패");
+              
             }
             sb = new StringBuilder();
             String line;
@@ -231,21 +228,21 @@ public class ApiPTSearch {
                   infopt.setSy(sy);
                   infopt.setEx(ex);
                   infopt.setEy(ey);
-                  infopt.setWalk(false); // 여기까지 온건 walk 아니라 pt
+                 
                } else if (array[i].equals("trafficType")) {
                   trafficType = Integer.parseInt(array[i + 2]);
                } else if (array[i].equals("lane")) {
-                  if(cnt!=0) infopt.addSection(infoSec); // 처음이 아니면 넣어주기
+                  if(cnt!=0) infopt.addSection(infoSec);
                   cnt++;
                   infoSec = new InfoSectionPT();
-                  infoSec.setTrafficType(trafficType); // lane이 trafficType보다 나중에 나오니까
-               } else if (array[i].equals("busNo")) { // 버스일 경우
+                  infoSec.setTrafficType(trafficType); 
+               } else if (array[i].equals("busNo")) { 
                   if (trafficType != 2)   continue;
                   infoSec.addBusNoList(array[i + 3]);
-               } else if (array[i].equals("name")) { // 지하철일 경우
+               } else if (array[i].equals("name")) { 
                   if (trafficType != 1)   continue;
                   infoSec.setSubwayLine(array[i + 3]);
-               } else if(array[i].equals("stationCount")){ // section별 정류장 개수
+               } else if(array[i].equals("stationCount")){ 
             	   infoSec.setSectionStationCount(Integer.parseInt(array[i + 2]));
                }else if (array[i].equals("x")) {
                   x = Double.parseDouble(array[i + 3]);
@@ -266,7 +263,7 @@ public class ApiPTSearch {
                   infopt.setFare(Integer.parseInt(array[i + 2]));
                } else if (array[i].equals("totalTime")) {
                   infopt.setTotalTime(Integer.parseInt(array[i + 2]));
-               }else if(array[i].equals("totalStationCount")) { // 총 정류장 개수
+               }else if(array[i].equals("totalStationCount")) { 
             	   infopt.setStationCount(Integer.parseInt(array[i + 2]));
                } else if (array[i].equals("totalDistance")) {
                   infopt.setTotalDistance(Integer.parseInt(array[i + 2]));
@@ -274,7 +271,7 @@ public class ApiPTSearch {
                   infopt.setFirstStartStation(array[i + 3]);
                } else if (array[i].equals("lastEndStation")) {
                   infopt.setLastEndStation(array[i + 3]);
-                  break; // 하나 다 불러온 거니 for문 나감
+                  break; 
                }
             }
             infopt.addSection(infoSec); 

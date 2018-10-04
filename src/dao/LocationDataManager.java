@@ -17,9 +17,9 @@ public class LocationDataManager {
    public String getLocation(String si, String keywordVal) {
       ShowLocalSearch s = new ShowLocalSearch(si, keywordVal);      
       locationData.clear();
-      locationData = s.getRecommendData(); //크롤링하기
+      locationData = s.getRecommendData(); //
       
-      String result = "";      //크롤링한 데이터를 xml형태로 만들어준다.
+      String result = "";      //
       result += "<LocationData>";
       result += "<CityData><LocationCity>" + si + "</LocationCity></CityData>";
       
@@ -44,6 +44,6 @@ public class LocationDataManager {
          result += "</Data>";
       }
       result += "</LocationData>";
-      return result;  //result를 내보낸다.
+      return result;  //
    }
 }

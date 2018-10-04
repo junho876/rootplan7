@@ -3,15 +3,15 @@ package dto;
 import java.util.LinkedList;
 
 public class InfoSectionPT {
-	private int trafficType; // trafficType, 1-지하철,2-버스
+	private int trafficType; // 
 	private String startStation; // startName
 	private String endStation; // endName
 	private int sectionDistance; // distance
 	private int sectionTime; // sectionTime
-	private String subwayLine; // name, 지하철 노선명(지하철만)
-	private String subwayCode; // 지하철 노선번호
+	private String subwayLine; // 
+	private String subwayCode; // 
 	private int sectionStationCount;
-	private LinkedList<String> busNoList; //버스 여러개 여러개
+	private LinkedList<String> busNoList; //
 	 
 	public InfoSectionPT() {
 		busNoList = new LinkedList<String>();

@@ -1,7 +1,7 @@
 package dto;
 
 public class Address {
-   //����, �浵, ���ּ�, ��
+   //
    private double lat; //y
    private double lng; //x
    private String address;

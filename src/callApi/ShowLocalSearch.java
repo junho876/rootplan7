@@ -19,26 +19,26 @@ public class ShowLocalSearch {
     LinkedList<Location> ld = new LinkedList<Location>();
     
     public ShowLocalSearch(String si, String keywordVal){ 
-    	img = new LocalSearchImg(); //이미지 호출API
-    	findLocation = si;   //지도에서 받은 시의 위치를 넣어준다.
+    	img = new LocalSearchImg(); 
+    	findLocation = si;   
        this.keyword = keywordVal;
     }
     public ShowLocalSearch(String si){ 
-    	img = new LocalSearchImg(); //이미지 호출API
-        findLocation = si;   //지도에서 받은 시의 위치를 넣어준다.
+    	img = new LocalSearchImg(); 
+        findLocation = si;   
     } 
    public String getImage(String imgTitle) {
-      System.out.println("이미지 불러오기");
+    
       try {
          String text = URLEncoder.encode(imgTitle, "utf-8");
-         // 여기에 있는 display 값을 조정함에 따라 사진을 긁어오는게 달라진다. 
+      
          String apiURL = "https://openapi.naver.com/v1/search/image?query=" + text + "&display=" + 100 + "&";
          URL url = new URL(apiURL);
          HttpURLConnection con = (HttpURLConnection) url.openConnection();
          con.setRequestMethod("GET");
          con.setRequestProperty("X-Naver-Client-Id", clientId);
          con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
-         //System.out.println("URL : " + apiURL);
+       
          int responseCode = con.getResponseCode();
          BufferedReader br;
          if (responseCode == 200) {

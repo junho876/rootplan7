@@ -8,10 +8,10 @@ public class InfoCar {
 	private double ex;
 	private double ey;
 	private int distance;
-	private boolean walk; // 걷기면 true
+	private boolean walk; // 
 	private int time;
 	private int fare;
-	private LinkedList<DataPair> lineList; // line에 x,y 정보
+	private LinkedList<DataPair> lineList; //
 	
 	public InfoCar(){
 		lineList = new LinkedList<DataPair>();

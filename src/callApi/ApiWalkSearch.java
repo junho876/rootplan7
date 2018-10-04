@@ -15,7 +15,7 @@ public class ApiWalkSearch{
    String startName = "start";
    String endName = "end";
 
-   // dfs를 위한 거리 값 가져올떄
+   // 
    public int walkApi(int sno, int eno, double sx, double sy, double ex, double ey) {
 	   System.out.println("ddddddddddddd걷기");
       int findTime = 0;
@@ -36,7 +36,7 @@ public class ApiWalkSearch{
               br = new BufferedReader(new InputStreamReader(con.getInputStream()));
           } else {
               br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-              System.out.print("실패");
+
           }
           sb = new StringBuilder();
           String line;
@@ -54,7 +54,7 @@ public class ApiWalkSearch{
           
           for(int i=0; i<array.length; i++) {
         	  if(array[i].equals("tmap:totalTime")) {
-        		  // 여기서 다른 클래스 이차원 배열에 넣어주기
+
         		  findTime =  Integer.parseInt(array[i+1]);
         		  break;
         	  }
@@ -63,8 +63,8 @@ public class ApiWalkSearch{
 	return findTime;
    }
    
-   // 대중교통 걷기 재호출시
-   public InfoPT resultWalkPTApi(double sx, double sy, double ex, double ey) { // 대중교통 걷기 전용
+   // 
+   public InfoPT resultWalkPTApi(double sx, double sy, double ex, double ey) { 
 	   InfoPT infopt = new InfoPT();
 	   
 	   try {
@@ -95,7 +95,7 @@ public class ApiWalkSearch{
 				con.disconnect();
 				String data = sb.toString();
 
-				System.out.println("d실패" + data);				
+								
 			}
 			sb = new StringBuilder();
 			String line;
@@ -134,16 +134,16 @@ public class ApiWalkSearch{
 				}
 			}
 
-			// 걷기일 경우 나머지 firstStation, endStation은 연결된 대중교통 값에서 가져오기
+
 			infopt.setWalk(true);
 			//infocar.print();
 		} catch (Exception e) {}
 		return infopt;
    }
    
-   // 자동차 걷기 재호출시
-   public InfoCar resultWalkCarApi(double sx, double sy, double ex, double ey) { // 자동차 걷기 전용
-		InfoCar infocar = new InfoCar(); // car class 재활용
+
+   public InfoCar resultWalkCarApi(double sx, double sy, double ex, double ey) { 
+		InfoCar infocar = new InfoCar(); 
 		try {
 			String apiURL = "https://api2.sktelecom.com/tmap/routes/pedestrian?version=1&format=xml&startX="
 					+ Double.toString(sx) + "&startY=" + Double.toString(sy) + "&endX=" + Double.toString(ex) + "&endY="
@@ -161,7 +161,7 @@ public class ApiWalkSearch{
 				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
 			} else {
 				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-				System.out.println("d실패");
+				
 			}
 			sb = new StringBuilder();
 			String line;

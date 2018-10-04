@@ -8,7 +8,7 @@ import dto.SetData;
 
 public class AddressDataManager {
    ConnectDB db = new ConnectDB();
-   public LinkedList<Address> addressData; //��� �����͸� �����Ѵ�.   
+   public LinkedList<Address> addressData;   
    int size = 0;
    
    public AddressDataManager(){
@@ -18,7 +18,7 @@ public class AddressDataManager {
       return addressData.size();
    }
    
-   public String addData(Address data) { //�����͸� �����Ѵ�
+   public String addData(Address data) { 
 	  for(Address item : addressData) {
 		  if(data.getAddress().equals(item.getAddress())) {
 			  return "-1";
@@ -126,12 +126,12 @@ public class AddressDataManager {
       return addressData;
    }
   
-   //저장에서 선택된 데이터를 list에 넣어준다.
+   
    public void callSaveDBData(String rID, String cID) {
 	   addressData.clear();
-	   //데이터를 DBRouteData에 넣어서 return 받는다.
+	  
 	   DBRouteData tmpDB = db.CallDBData_INDEX(rID, cID);
-	   //리턴받은 데이터를 addressData에 넣어준다.
+	   
 	   int size = tmpDB.getDatasize();
 	   for(int i = 0;i < size;i++) {
 		   	String a = tmpDB.getAddress(i);

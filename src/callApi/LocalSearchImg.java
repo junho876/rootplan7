@@ -12,10 +12,10 @@ public class LocalSearchImg {
 	 public String clientSecret = "d4nYetPHwT";
 	 
 	 public String getImage(String imgTitle,int num) {
-	      //System.out.println("이미지 불러오기");
+	     
 	      try {
 	         String text = URLEncoder.encode(imgTitle, "utf-8");
-	         // 여기에 있는 display 값을 조정함에 따라 사진을 긁어오는게 달라진다. 
+	       
 	         String apiURL = "https://openapi.naver.com/v1/search/image?query=" + text + "&display=" + 100 + "&";
 	         URL url = new URL(apiURL);
 	         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -44,19 +44,19 @@ public class LocalSearchImg {
 	         String data = sb.toString();	         
 	         String[] array;
 	         array = data.split("\"");         
-	       //  System.out.println("이미지 개수 : " + array.length);
-	         if(num == 0) {  //데이터 추천의 이미지를 보여주는 경우
+	      
+	         if(num == 0) {  
 		         for (int i = 0; i < array.length; i++) {
 		            if (array[i].equals("thumbnail") && array[i+2]!=null) 
 		               return array[i+2];
 		         }
-	         }else if(num == 1) { //추천 데이터에서 하나를 선택해서 데이터를 보내는 경우
+	         }else if(num == 1) { 
 	        	 String result = "";
 	        	 result += "<UrlData>";
 	        	 int cnt = 0;	        
 	        	 for (int i = 0; i < array.length; i++) {
 			            if (array[i].equals("thumbnail")) { 
-			            	if( ++cnt > 10) break; //url은 10개만 받는다.
+			            	if( ++cnt > 10) break; 
 			            	result += "<Data>";
 			            	result += "<imgUrl>" + array[i+2] + "</imgUrl>";
 			            	result += "</Data>";

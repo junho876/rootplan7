@@ -3,8 +3,8 @@ package dto;
 import java.util.LinkedList;
 
 public class DataTotal {
-	public TimeMethod[][] carDist; // 자동차 최단 거리 저장
-    public TimeMethod[][] ptDist; // 대중교통 최단 거리 저장
+	public TimeMethod[][] carDist; //
+    public TimeMethod[][] ptDist; // 
     public int carAns[];
     public int ptAns[];
     public LinkedList<InfoCar> carList;
@@ -12,7 +12,7 @@ public class DataTotal {
     int listSize;
     
     public DataTotal(int listSize) {
-    	listSize++; // 사이클이 생성될 경우를 대비
+    	listSize++; // 
     	this.listSize = listSize;
     	carDist = new TimeMethod[listSize][listSize];
         ptDist = new TimeMethod[listSize][listSize];  

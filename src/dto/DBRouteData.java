@@ -3,9 +3,9 @@ package dto;
 import java.util.Arrays;
 
 public class DBRouteData {
-	private String rid; //몇번째 사이즈 인지
-	private String cid; //사용자 id;
-	private int datasize; //경로가 몇개 저장되어 있는지
+	private String rid; //
+	private String cid; //
+	private int datasize; 
 	private String name; 
 
 	private String[] address = new String[8];

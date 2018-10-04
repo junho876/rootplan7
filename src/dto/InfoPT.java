@@ -3,23 +3,23 @@ package dto;
 import java.util.LinkedList;
 
 public class InfoPT {
-	private double sx; // 요청시
-	private double sy; // 요청시
-	private double ex; // 요청시
-	private double ey; // 요청시
+	private double sx; // 
+	private double sy; // 
+	private double ex; // 
+	private double ey; // 
 	private String firstStartStation; 
 	private String lastEndStation;
 	private int stationCount;
-	private int totalDistance; // // 응답 : totalDistance
-	private boolean walk; // 걷기면 true, 버스나 지하철이면 false
-	private int totalTime; // 응답 : totalTime
-	private int fare; // 응답 : payment
-	//private int stationCount; // stationCount로  DataPair 정보 가짐
-	private LinkedList<InfoSectionPT> section; // 환승 정보, cntTransfer만큼 만들기
-	private LinkedList<DataPair> lineList; // 환승에 상관없이 좌표는 연속적으로 저장
+	private int totalDistance; // // 
+	private boolean walk; // 
+	private int totalTime; // 
+	private int fare; //  : payment
+
+	private LinkedList<InfoSectionPT> section;
+	private LinkedList<DataPair> lineList; // 
 	
 	public InfoPT(){
-		section = new LinkedList<InfoSectionPT>(); // 환승 없을 수도 있음
+		section = new LinkedList<InfoSectionPT>(); // 
 		lineList = new LinkedList<DataPair>();
 	}
 
