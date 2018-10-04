@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
+import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
@@ -19,16 +20,30 @@ public class ConnectDB {
 	static Connection connection;
 	static Statement st;
 	static ResultSet rs;
-	public ConnectDB(){
-		try {	
-			InitialContext ct = new InitialContext();
-			ds = (DataSource)ct.lookup("java:comp/env/jdbc/mysqldb");
-			
 
-		} catch (Exception e) {
-			
+	
+	public ConnectDB(){
+		try {
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");   
+			ds = (DataSource) envCtx.lookup("jboss/datasources/defaultDS");
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
+		       
 	}
+	
+	public Connection getConnection() {
+		try {
+			connection=ds.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return connection;
+	}
+	
+	
 	public void CheckID(CustomerInfo info) {
 		System.out.println("checkID");
 		try {			
